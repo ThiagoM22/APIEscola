@@ -4,6 +4,7 @@ using APIEscola.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIEscola.Migrations
 {
     [DbContext(typeof(APIEscolaContext))]
-    partial class APIEscolaContextModelSnapshot : ModelSnapshot
+    [Migration("20250415173812_Aluno")]
+    partial class Aluno
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,85 +60,6 @@ namespace APIEscola.Migrations
                     b.HasIndex("UserId1");
 
                     b.ToTable("Alunos", (string)null);
-                });
-
-            modelBuilder.Entity("APIEscola.Models.Curso", b =>
-                {
-                    b.Property<Guid>("CursoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Sigla")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
-
-                    b.HasKey("CursoId");
-
-                    b.ToTable("Cursos", (string)null);
-                });
-
-            modelBuilder.Entity("APIEscola.Models.Matricula", b =>
-                {
-                    b.Property<Guid>("MatriculaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AlunoId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateOnly>("DataMatricula")
-                        .HasColumnType("date");
-
-                    b.Property<Guid?>("TurmaId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("MatriculaId");
-
-                    b.HasIndex("AlunoId");
-
-                    b.HasIndex("TurmaId");
-
-                    b.ToTable("Matriculas", (string)null);
-                });
-
-            modelBuilder.Entity("APIEscola.Models.Turma", b =>
-                {
-                    b.Property<Guid>("TurmaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CursoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateOnly>("Fim")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("Inicio")
-                        .HasColumnType("date");
-
-                    b.Property<string>("descricao")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("sigla")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
-
-                    b.HasKey("TurmaId");
-
-                    b.HasIndex("CursoId");
-
-                    b.ToTable("Turmas", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -343,34 +267,6 @@ namespace APIEscola.Migrations
                         .HasForeignKey("UserId1");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("APIEscola.Models.Matricula", b =>
-                {
-                    b.HasOne("APIEscola.Models.Aluno", "Aluno")
-                        .WithMany()
-                        .HasForeignKey("AlunoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("APIEscola.Models.Turma", "Turma")
-                        .WithMany()
-                        .HasForeignKey("TurmaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Aluno");
-
-                    b.Navigation("Turma");
-                });
-
-            modelBuilder.Entity("APIEscola.Models.Turma", b =>
-                {
-                    b.HasOne("APIEscola.Models.Curso", "Curso")
-                        .WithMany()
-                        .HasForeignKey("CursoId");
-
-                    b.Navigation("Curso");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
